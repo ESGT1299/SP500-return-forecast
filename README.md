@@ -2,6 +2,27 @@
 
 This portfolio project (by Erick Guagua, Physics B.Sc.) aims to forecast the next-day returns of the S&P 500 index using advanced machine learning (ML) and deep learning (DL) methods. The goals are to engineer informative features from historical price data, evaluate a range of models (e.g. random forests, XGBoost, neural networks), and deploy an interactive Streamlit dashboard for visualization and real-time forecasting. This approach could help financial analysts and quants anticipate market movements and inform trading or hedging strategies, while acknowledging the inherent unpredictability of markets
 
+## Project Structure
+
+sp500-return-forecast/
+├── data/
+│ ├── raw/
+│ └── processed/ 
+├── notebooks/
+│ ├── 01_download.ipynb
+│ ├── 02_preprocessing.ipynb
+│ ├── 03_baselines.ipynb
+│ ├── 04_deep_learning.ipynb
+│ ├── 05_evaluation.ipynb
+│ ├── 06_improved_models.ipynb
+│ ├── 07_deep_learning_improved.ipynb
+│ ├──08_ensemble_validation.ipynb
+│ └──09_deploy_streamlit.py 
+├── models/
+├── requirements.txt
+├── .gitignore
+└── README.md ← Project overview (this file)
+
 ## Methodology
 
 1. **Data & Features:** We use historical S&P 500 price data (daily OHLCV) as input. Feature engineering includes classic technical indicators (e.g. moving averages, momentum oscillators like RSI, MACD) and lagged returns to capture momentum and mean-reversion effects. These features supplement raw price inputs to help models detect patterns. (As one study notes, indicators such as SMA, MACD, and RSI can power high-accuracy LSTM forecasting models). We also consider market sentiment or macro variables if available, though the core features come from price history and volume.
@@ -13,6 +34,26 @@ This portfolio project (by Erick Guagua, Physics B.Sc.) aims to forecast the nex
 4. **Evaluation:** Models are evaluated on historical hold-out data using error metrics like Mean Absolute Error (MAE) and directional accuracy (up/down movement). We compare predictive accuracy against naive benchmarks (e.g. yesterday’s close as forecast). As reported in the literature, advanced models (especially XGBoost) often yield low percentage errors (~3–5%) and significant predictive power in similar tasks. However, we remain cautious: stock returns are noisy and any forecast has uncertainty (see Caveats below).
 
 5. **Streamlit Deployment:** To make the models accessible, we build a Streamlit dashboard. Streamlit is an open-source Python framework that “enables [data scientists and AI/ML engineers] to deliver dynamic data apps with only a few lines of code”. In practice, the Streamlit app allows users to select a date or input features and instantly see the predicted S&P 500 return for the next day, along with interactive charts of historical data. No web development skills are required (Streamlit apps are “shareable web apps in minutes” using pure Python).
+
+
+## Results & Outcomes
+
+## Results & Outcomes
+
+| Model                     | Configuration                     | Hold-out MAE | Hold-out R² |
+|:--------------------------|:----------------------------------|-------------:|------------:|
+| ARIMA                     | default parameters                | 0.01103      | 0.001       |
+| Random Forest             | default scikit-learn              | 0.00785      | 0.128       |
+| MLP                       | basic (no tuning)                 | 0.11887      | −234.074    |
+| MLP                       | tuned (Keras-Tuner best)          | 0.00707      | 0.384       |
+| LSTM                      | basic architecture                | 0.01439      | −4.157      |
+| LSTM                      | improved/stacked (two layers)     | 0.01217      | −1.319      |
+| **Ensemble**              | stack of RF + XGB + MLP + LSTM    | **0.00751**  | **0.095**   |
+| **Ensemble (walk-forward)** | 5-fold rolling window average   | 0.00758 ± 0.00226 | 0.099 ± 0.045 |
+
+
+> **MAE**: Mean Absolute Error of log-returns (lower is better).  
+> **R²**: Coefficient of determination (closer to 1 indicates stronger explanatory power).
 
 ## Real-World Use Cases
 
@@ -99,3 +140,9 @@ We leverage XGBoostRegressor for its efficiency and accuracy in regression tasks
 7. Polikar, R. (2006). Ensemble based systems in decision making. *IEEE Circuits and Systems Magazine, 6*(3), 21–45. https://doi.org/10.1109/MCAS.2006.1688199
 
 8. Streamlit Inc. (2022). *Streamlit Documentation*. Retrieved from https://docs.streamlit.io
+
+## Contributing
+Contributions are welcome! Please open an issue or submit a pull request for bug fixes, enhancements, or new features.
+
+## License
+This project is released under the MIT License.
