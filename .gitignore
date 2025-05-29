@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+venv/
+.env/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Data files (raw, processed)
+data/raw/
+data/processed/
+
+# Trained models
+models/
+
+# VS Code settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
