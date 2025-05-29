@@ -21,7 +21,7 @@ sp500-return-forecast/
 ├── models/
 ├── requirements.txt
 ├── .gitignore
-└── README.md ← Project overview (this file)
+└── README.md
 
 ## Methodology
 
